@@ -4,10 +4,12 @@
   "description": "RESTful API for book collection managment",
   "main": "index.js",
   "scripts": {
-    "start": "npm run build && node ./dist/main.js",
+    "start": "npm run build && npm run prisma:gen-connection-string && node ./dist/main.js",
     "build": "npm run clean && npm run compile",
     "compile": "tsc -p tsconfig.json",
     "clean": "rimraf dist",
+    "ts": "npx ts-node",
+    "prisma:gen-connection-string": " node ./dist/model/prisma.config.js",
     "test": "test"
   },
   "keywords": [
@@ -15,6 +17,7 @@
     "rest",
     "api"
   ],
+  "type": "module",
   "engines": {
     "node": "^18.0.0",
     "npm": ">=8"
@@ -22,8 +25,15 @@
   "author": "Anton Ivanov",
   "license": "ISC",
   "devDependencies": {
+    "@prisma/client": "5.18.0",
+    "@types/node": "22.2.0",
     "rimraf": "6.0.1",
     "ts-node": "10.9.2",
     "typescript": "5.5.4"
+  },
+  "dependencies": {
+    "dotenv": "16.4.5",
+    "joi": "17.13.3",
+    "prisma": "5.18.0"
   }
 }
