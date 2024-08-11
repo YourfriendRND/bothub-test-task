@@ -1,0 +1,29 @@
+{
+  "name": "bothub-test-task",
+  "version": "1.0.0",
+  "description": "RESTful API for book collection managment",
+  "main": "index.js",
+  "scripts": {
+    "start": "npm run build && node ./dist/main.js",
+    "build": "npm run clean && npm run compile",
+    "compile": "tsc -p tsconfig.json",
+    "clean": "rimraf dist",
+    "test": "test"
+  },
+  "keywords": [
+    "bothub",
+    "rest",
+    "api"
+  ],
+  "engines": {
+    "node": "^18.0.0",
+    "npm": ">=8"
+  },
+  "author": "Anton Ivanov",
+  "license": "ISC",
+  "devDependencies": {
+    "rimraf": "6.0.1",
+    "ts-node": "10.9.2",
+    "typescript": "5.5.4"
+  }
+}
