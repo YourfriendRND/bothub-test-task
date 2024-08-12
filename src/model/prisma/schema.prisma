@@ -13,6 +13,7 @@ model User {
   username          String
   passwordHash      String    @map("password_hash")
   email             String    @unique
+  isEmailConfirmed  Boolean   @map("is_email_confirmed")
   isAdmin           Boolean   @default(false) @map("is_admin")
   registrationDate  DateTime  @default(now()) @map("registration_date")
   updatedAt         DateTime  @updatedAt @map("updated_at")
@@ -31,7 +32,7 @@ model Book {
   genres            String 
   createdBy         User     @relation(fields: [addedBy], references: [id])
   addedBy           String   @map("added_by")
-  updatedBy         String?  @map("updated_by")
+  updatedBy         String   @map("updated_by")
   createdAt         DateTime @default(now()) @map("created_at")
   updatedAt         DateTime @updatedAt @map("updated_at")
 

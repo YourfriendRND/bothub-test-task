@@ -15,7 +15,7 @@ function validateConfig(config: PrismaConfigSchema): void {
     const { error } = validationSchema.validate(config, { abortEarly: true });
 
     if (error) {
-        throw new Error(`[Application Config Validation Error]: ${error.message}`)
+        throw new Error(`[Prisma Config Validation Error]: ${error.message}`)
     }
 }
 
@@ -34,7 +34,7 @@ function getAppConfig(): PrismaConfigSchema {
 }
 
 function createConnectionString(config: PrismaConfigSchema): string {
-    return `postgresql://${config.POSTGRES_USER}:${config.POSTGRES_PASSWORD}@${config.POSTGRES_HOST}:${config.POSTGRES_PORT}/${config.POSTGRES_DB}?schema=public`
+    return `"postgresql://${config.POSTGRES_USER}:${config.POSTGRES_PASSWORD}@${config.POSTGRES_HOST}:${config.POSTGRES_PORT}/${config.POSTGRES_DB}?schema=publi&connect_timeout=300"`
 }
 
 function createEnvConfig(config: Record<string, unknown>): string {
@@ -48,7 +48,7 @@ async function updateAppEnvFile(configContent: string): Promise<void> {
         console.error('Prisma .env file does not exist');
     }
     finally {
-        await writeFile('./src/model/.env', configContent);
+        await writeFile('./src/model/prisma/.env', configContent);
     }
 }
 
@@ -62,7 +62,7 @@ async function generate(): Promise<void> {
         }
     })
     await updateAppEnvFile(configContent);
-    console.log('File .env successfuly updated 👍');
+    console.log('File .env for Prisma successfuly updated 👍');
 }
 
 generate();
