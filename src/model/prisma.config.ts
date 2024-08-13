@@ -34,7 +34,7 @@ function getAppConfig(): PrismaConfigSchema {
 }
 
 function createConnectionString(config: PrismaConfigSchema): string {
-    return `"postgresql://${config.POSTGRES_USER}:${config.POSTGRES_PASSWORD}@${config.POSTGRES_HOST}:${config.POSTGRES_PORT}/${config.POSTGRES_DB}?schema=publi&connect_timeout=300"`
+    return `"postgresql://${config.POSTGRES_USER}:${config.POSTGRES_PASSWORD}@${config.POSTGRES_HOST}:${config.POSTGRES_PORT}/${config.POSTGRES_DB}?schema=public&connect_timeout=300"`
 }
 
 function createEnvConfig(config: Record<string, unknown>): string {

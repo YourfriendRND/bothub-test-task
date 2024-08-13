@@ -37,12 +37,15 @@
   },
   "dependencies": {
     "chalk": "5.3.0",
+    "class-transformer": "0.5.1",
+    "class-validator": "0.14.1",
     "dayjs": "1.11.12",
     "dotenv": "16.4.5",
     "express-async-handler": "1.2.0",
     "http-status-codes": "2.3.0",
     "inversify": "6.0.2",
     "joi": "17.13.3",
+    "jose": "5.6.3",
     "log4js": "6.9.1",
     "prisma": "5.18.0",
     "reflect-metadata": "0.2.2"

@@ -2,3 +2,8 @@ export * from './middleware.interface';
 export * from './route.interface';
 export * from './controller.interface';
 export * from './logger.interface';
+export * from './repository.interface';
+export * from './exception-filter.interface';
+export * from './error-data.type';
+export * from './validation-error';
+export * from './token-payload.type';

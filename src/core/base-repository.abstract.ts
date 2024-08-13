@@ -1,25 +1,31 @@
-
-import { BaseEntity } from '../types';
 import { PrismaClient } from '@prisma/client';
+import { injectable } from 'inversify';
+import { BaseEntity } from '../types';
+import { RepositoryInterface } from '../types';
 
+@injectable()
 export abstract class BaseRepository<
     T extends BaseEntity,
     DocumentType = object,
-> {
-    protected readonly prismaClient: PrismaClient;
+> implements RepositoryInterface<T, DocumentType>{
+    private readonly _client: PrismaClient;
     constructor(
         private readonly createEntity: (document: DocumentType) => T,    
     ) {
-        this.prismaClient = new PrismaClient({
+        this._client = new PrismaClient({
             log: ['query', 'warn', 'error'],
         });
 
-        this.prismaClient.$connect();
+        this._client.$connect();
     }
 
-    protected createEntityFromDocument(document: DocumentType): T | null {
+    get client () {
+        return this._client;
+    }
+
+    public createEntityFromDocument(document: DocumentType): T {
         if (!document) {
-          return null;
+          throw new Error('The document from database is empty, please check request');
         }
     
         return this.createEntity(document);

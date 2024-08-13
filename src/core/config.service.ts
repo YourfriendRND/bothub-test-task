@@ -12,7 +12,7 @@ export class ConfigService implements ConfigIntreface<ApplicationConfigSchema> {
     constructor(
         @inject(ApplicationComponents.Logger) private readonly logger: Logger
     ) {
-        const parsedOutput= config();
+        const parsedOutput = config();
 
         if (parsedOutput.error) {
             throw new Error('Can\'t read .env file. Perhaps the file does not exists.');
@@ -20,6 +20,8 @@ export class ConfigService implements ConfigIntreface<ApplicationConfigSchema> {
 
         this.schema = {
             PORT: parseInt(process.env['PORT']!, 10),
+            SALT: process.env['SALT']!,
+            SECRET_ACCESS_KEY: process.env['SECRET_ACCESS_KEY']!,
         };
 
         this.validateApplicationConfig(this.schema);
@@ -30,7 +32,9 @@ export class ConfigService implements ConfigIntreface<ApplicationConfigSchema> {
     private validateApplicationConfig(config: ApplicationConfigSchema): void {
         
         const validationSchema = Joi.object({
-            PORT: Joi.number().required()
+            PORT: Joi.number().required(),
+            SALT: Joi.string().required(),
+            SECRET_ACCESS_KEY: Joi.string().required(),
         });
         
         const { error } = validationSchema.validate(config, { abortEarly: true });
