@@ -22,6 +22,11 @@ export class ConfigService implements ConfigIntreface<ApplicationConfigSchema> {
             PORT: parseInt(process.env['PORT']!, 10),
             SALT: process.env['SALT']!,
             SECRET_ACCESS_KEY: process.env['SECRET_ACCESS_KEY']!,
+            SMTP_HOST: process.env['SMTP_HOST']!,
+            SMTP_PORT: parseInt(process.env['SMTP_PORT']!, 10),
+            SMTP_EMAIL: process.env['SMTP_EMAIL']!,
+            SMTP_PASSWORD: process.env['SMTP_PASSWORD']!,
+            APPLICATION_URL: process.env['APPLICATION_URL']!,
         };
 
         this.validateApplicationConfig(this.schema);
@@ -35,6 +40,11 @@ export class ConfigService implements ConfigIntreface<ApplicationConfigSchema> {
             PORT: Joi.number().required(),
             SALT: Joi.string().required(),
             SECRET_ACCESS_KEY: Joi.string().required(),
+            SMTP_HOST: Joi.string().required(),
+            SMTP_PORT: Joi.number().required(),
+            SMTP_EMAIL: Joi.string().required(),
+            SMTP_PASSWORD: Joi.string().required(),
+            APPLICATION_URL: Joi.string().required(),
         });
         
         const { error } = validationSchema.validate(config, { abortEarly: true });

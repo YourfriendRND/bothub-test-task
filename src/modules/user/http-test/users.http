@@ -3,23 +3,23 @@
 
 ##### Регистрация пользователя
 
-POST http://localhost:6000/users/register HTTP/1.1
+POST http://localhost:5000/users/register HTTP/1.1
 content-type: application/json
 
 {
-    "email": "root@inbox.ru",
+    "email": "kupeirc@gmail.com",
     "password": "hello321qwe",
-    "username": "superuser"
+    "username": "Anton"
 }
 
 
 ##### Аутентификация пользователя
 
-POST http://localhost:6000/users/login HTTP/1.1
+POST http://localhost:5000/users/login HTTP/1.1
 content-type: application/json
 
 {
-    "email": "root@inbox.ru",
+    "email": "kupeirc@gmail.com",
     "password": "hello321qwe"
 }
 

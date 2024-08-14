@@ -6,4 +6,5 @@ export const ApplicationComponents = {
     UserController: Symbol.for('UserController'),
     UserService: Symbol.for('UserService'),
     UserRepository: Symbol.for('UserRepository'),
+    Mail: Symbol.for('MailInterface'),
 }

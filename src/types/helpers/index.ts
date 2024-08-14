@@ -7,3 +7,4 @@ export * from './exception-filter.interface';
 export * from './error-data.type';
 export * from './validation-error';
 export * from './token-payload.type';
+export * from './mail.interface';

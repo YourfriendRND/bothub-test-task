@@ -8,7 +8,7 @@ import CreatedUserDTO  from './dto/created-user.dto.js';
 import { ApplicationComponents } from '../../core/dictionary/app.js';
 import { UserEntity } from './user.entity.js';
 import { HttpError } from '../../core/errors/http-error.js';
-import { ApplicationConfigSchema, ConfigIntreface, TokenPayload } from '../../types';
+import { ApplicationConfigSchema, ConfigIntreface, TokenPayload, MailInterface } from '../../types';
 import { LoginUserDTO } from './dto/login-user.dto.js';
 
 @injectable()
@@ -19,7 +19,9 @@ export class UserService {
         @inject(ApplicationComponents.Logger) 
         private readonly logger: Logger,
         @inject(ApplicationComponents.Config)
-        private readonly config: ConfigIntreface<ApplicationConfigSchema>
+        private readonly config: ConfigIntreface<ApplicationConfigSchema>,
+        @inject(ApplicationComponents.Mail)
+        private readonly mailService: MailInterface
     ) {
         this.logger.log(`${UserService.name} has been initialized`);
     }
@@ -41,6 +43,11 @@ export class UserService {
             .setIssuedAt()
             .setExpirationTime('10h')
             .sign(crypto.createSecretKey(jwtSecret, 'utf-8'));
+    }
+
+    private createConfirmationLink(): string {
+        const uuid = crypto.randomUUID();
+        return `${this.config.get('APPLICATION_URL')}/users/activate/${uuid}`;
     }
 
     public async findUserByEmail(email: string): Promise<UserEntity | null> {
@@ -66,7 +73,15 @@ export class UserService {
             isEmailConfirmed: false
         });
 
-        return await this.userRepository.create(user);
+        const createdUserEntity = await this.userRepository.create(user);
+
+        if (createdUserEntity) {
+            const link = this.createConfirmationLink();
+            await this.mailService.sendActivateEmail(createdUserEntity.email, link);
+        }
+
+        return createdUserEntity;
+
     }
 
     public async loginUser({ email, password }: LoginUserDTO): Promise<{ accessToken: string }> {
