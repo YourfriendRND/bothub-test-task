@@ -1,0 +1,26 @@
+##### Файл тестовых запросов к контролеру users
+##### Запросы выполняются с помощью расширения REST Client для VS Code ( https://marketplace.visualstudio.com/items?itemName=humao.rest-client )
+
+##### Регистрация пользователя
+
+POST http://localhost:5000/users/register HTTP/1.1
+content-type: application/json
+
+{
+    "email": "kupeirc@gmail.com",
+    "password": "hello321qwe",
+    "username": "Anton"
+}
+
+
+##### Аутентификация пользователя
+
+POST http://localhost:5000/users/login HTTP/1.1
+content-type: application/json
+
+{
+    "email": "kupeirc@gmail.com",
+    "password": "hello321qwe"
+}
+
+

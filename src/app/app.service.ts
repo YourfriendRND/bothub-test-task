@@ -3,9 +3,12 @@ import { inject, injectable } from 'inversify';
 import { 
     LoggerInterface, 
     ConfigIntreface,
-    ApplicationConfigSchema
+    ApplicationConfigSchema,
+    ControllerInterface,
+    ExceptionFilterInterface
 } from '../types';
 import { ApplicationComponents } from '../core/dictionary/app.js';
+
 
 @injectable()
 export class AppService {
@@ -15,12 +18,16 @@ export class AppService {
         @inject(ApplicationComponents.Logger) 
         private readonly logger: LoggerInterface,
         @inject(ApplicationComponents.Config) 
-        private readonly config: ConfigIntreface<ApplicationConfigSchema>
+        private readonly config: ConfigIntreface<ApplicationConfigSchema>,
+        @inject(ApplicationComponents.UserController)
+        private readonly userController: ControllerInterface,
+        @inject(ApplicationComponents.ExceptionFilter)
+        private readonly exceptionFilter: ExceptionFilterInterface
     ) {
         this.expressApp = express();
     }
 
-    private _initServer(): void {
+    private async _initServer(): Promise<void> {
         this.logger.log('Server initialization...');
         const port = this.config.get('PORT');
         this.expressApp.listen(port, () => {
@@ -28,8 +35,28 @@ export class AppService {
         });
     }
 
+    private async _initRoutes(): Promise<void> {
+        this.logger.log('Application routes initialization...');
+        this.expressApp.use('/users', this.userController.router);
+        this.logger.log('Application routes has been successfully initialized');
+    }
+
+    private async _initExceptionFilters (): Promise<void> {
+        this.logger.log('Application exception filter initialization');
+        this.expressApp.use(this.exceptionFilter.catch.bind(this.exceptionFilter));
+    };
+
+    private async _initMiddlewares (): Promise<void> {
+        this.logger.log('Global middleware initialization...');
+        this.expressApp.use(express.json());
+        this.expressApp.use(express.urlencoded({ extended: true }));
+    }
+
     public async init(): Promise<void> {
-        this._initServer();
+        await this._initMiddlewares();
+        await this._initRoutes();
+        await this._initExceptionFilters();
+        await this._initServer();
     }
 
 }

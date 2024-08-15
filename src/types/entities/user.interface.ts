@@ -4,7 +4,8 @@ export interface UserInterface {
     passwordHash: string;
     email: string;
     isAdmin: boolean;
+    isEmailConfirmed: boolean;
     registrationDate?: Date;
     updatedAt?: Date;
-    updatedBy?: string;
+    updatedBy?: string | null;
 }
