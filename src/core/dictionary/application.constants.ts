@@ -1,1 +1,3 @@
 export const MAX_LOG_FILE_SIZE = 5_120_000;
+
+export const APPLICATION_ENTITY_LIMIT = 50;

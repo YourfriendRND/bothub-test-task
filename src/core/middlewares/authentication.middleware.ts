@@ -3,7 +3,7 @@ import { Request, Response, NextFunction } from 'express';
 import { jwtVerify } from 'jose';
 import { StatusCodes } from 'http-status-codes';
 import { MiddlewareInterface, TokenPayload } from '../../types';
-import { HttpError } from '../errors/http-error';
+import { HttpError } from '../errors/http-error.js';
 
 export class AuthenticationMiddleware implements MiddlewareInterface {
     constructor(
@@ -20,7 +20,6 @@ export class AuthenticationMiddleware implements MiddlewareInterface {
     
                 req.user = {
                     id: payload.id,
-                    isAdmin: payload.isAdmin
                 };
     
                 return next();

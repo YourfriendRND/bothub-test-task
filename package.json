@@ -4,12 +4,13 @@
   "description": "RESTful API for book collection managment",
   "main": "index.js",
   "scripts": {
-    "start": "npm run build && npm run prisma:gen-connection-string && node ./dist/main.js",
+    "start": "npm run build && npm run prisma:env && node ./dist/main.js",
     "build": "npm run clean && npm run compile",
     "compile": "tsc -p tsconfig.json",
     "clean": "rimraf dist",
     "ts": "npx ts-node",
-    "prisma:gen-connection-string": "node ./dist/model/prisma.config.js",
+    "prisma:prepare": "npm run build && npm run prisma:env && npm run prisma:migrate && npm run prisma:generate",
+    "prisma:env": "node ./dist/model/prisma.config.js",
     "prisma:migrate": "npx prisma migrate dev --schema ./src/model/prisma/schema.prisma",
     "prisma:generate": "npx prisma generate --schema ./src/model/prisma/schema.prisma",
     "test": "test"

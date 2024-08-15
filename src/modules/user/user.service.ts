@@ -54,6 +54,20 @@ export class UserService {
         return await this.userRepository.findByEmail(email);
     }
 
+    public async findUserById(id: string): Promise<UserEntity> {
+        const user = await this.userRepository.findOne(id);
+
+        if (!user) {
+            throw new HttpError(
+                StatusCodes.NOT_FOUND,
+                `User with id: ${id} not found`,
+                `[${UserService.name}]`
+            )
+        }
+
+        return user;
+    }
+
     public async registerUser(createdUser: CreatedUserDTO): Promise<UserEntity> {
         const existUser = await this.findUserByEmail(createdUser.email);
         if (existUser) {
@@ -105,16 +119,22 @@ export class UserService {
             );
         }
 
-        const accessToken = await this.createJWT('HS256', this.config.get('SECRET_ACCESS_KEY'), {
+        const accessToken = await this.createJWT<TokenPayload>('HS256', this.config.get('SECRET_ACCESS_KEY'), {
             id: user.id!,
-            isAdmin: user.isAdmin,
-            email: user.email,
             registrationDate: user.registrationDate!,
         });
 
         return {
             accessToken
         }
+    }
+
+    public async changeRole(adminId: string, userId: string): Promise<UserEntity> {
+        const user = await this.findUserById(userId);
+        user.isAdmin = !user.isAdmin;
+        user.updatedBy = adminId;
+
+        return await this.userRepository.update(userId, user);
     }
 
 

@@ -32,6 +32,6 @@ export abstract class BaseRepository<
     }
 
     public abstract create(data: T): Promise<T>;
-    public abstract findOne(id: string): Promise<T>;
+    public abstract findOne(id: string): Promise<T | null>;
     public abstract update(id: string, data: T): Promise<T>;
 }

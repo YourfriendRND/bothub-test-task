@@ -1,0 +1,20 @@
+##### Файл тестовых запросов к контролеру books
+##### Запросы выполняются с помощью расширения REST Client для VS Code ( https://marketplace.visualstudio.com/items?itemName=humao.rest-client )
+
+#### Создание книги
+
+POST http://localhost:7000/books HTTP/1.1
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6Ijk2ZTI2NmY4LTIxYTktNDc2ZS05MzdkLTIzNWY1YTFjYjQ0YSIsInJlZ2lzdHJhdGlvbkRhdGUiOiIyMDI0LTA4LTE0VDE3OjU0OjA3LjIzOVoiLCJpYXQiOjE3MjM3MjY3MjAsImV4cCI6MTcyMzc2MjcyMH0.aY2hVSnCyGFYguTLGIZqgc5uu4-VjDJqvMsSa4b7YF8
+
+{
+    "title": "Преступление и наказание",
+    "author": "Ф.М. Достоевский",
+    "genres": "Роман",
+    "publicationDate": "1866"
+}
+
+#### Получение списка книг
+
+GET http://localhost:7000/books HTTP/1.1
+content-type: application/json
