@@ -5,12 +5,14 @@ import { ConfigService } from '../core/config.service.js';
 import { ApplicationComponents } from '../core/dictionary/app.js';
 import { ExceptionFilter } from '../core/exception-filter/exception-filter.js';
 import { MailService } from '../core/mail.service.js';
+import { SwaggerService } from '../core/swagger.service.js';
 import { 
     ApplicationConfigSchema, 
     ConfigIntreface, 
     ExceptionFilterInterface, 
     LoggerInterface, 
-    MailInterface 
+    MailInterface, 
+    SwaggerInterface
 } from '../types';
 
 export function createAppContainer (): Container {
@@ -39,6 +41,11 @@ export function createAppContainer (): Container {
     appContainer
         .bind<MailInterface>(ApplicationComponents.Mail)
         .to(MailService)
+        .inSingletonScope();
+
+    appContainer
+        .bind<SwaggerInterface>(ApplicationComponents.SwaggerService)
+        .to(SwaggerService)
         .inSingletonScope();
 
     return appContainer;

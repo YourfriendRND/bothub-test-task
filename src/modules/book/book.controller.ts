@@ -55,7 +55,7 @@ export class BookController extends Controller {
             middlewares: [
                 new ValidateIdParamMiddleware()
             ],
-        })
+        });
 
         this.addRoute({
             method: HttpMethods.Put,
@@ -67,7 +67,7 @@ export class BookController extends Controller {
                 new ValidateDtoMiddleware(BookDTO),
                 new ValidateIdParamMiddleware()
             ]
-        })
+        });
 
         this.addRoute({
             method: HttpMethods.Delete,
@@ -76,7 +76,10 @@ export class BookController extends Controller {
             middlewares: [
                 new ValidateIdParamMiddleware()
             ],
-        })
+        });
+
+        this.logger.log(`Routes are successfully registered for ${BookController.name}`);
+        this.logger.log(`${BookController.name} has been initialized`);
     }
 
     public async index(

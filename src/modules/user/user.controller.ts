@@ -14,6 +14,7 @@ import { LoginUserDTO } from './dto/login-user.dto.js';
 import { UserAccessRDO } from './rdo/user-access.rdo.js';
 import { AuthenticationMiddleware } from '../../core/middlewares/authentication.middleware.js';
 import { AdminMiddleware } from '../../core/middlewares/admin.middleware.js';
+import { ValidateIdParamMiddleware } from '../../core/middlewares/validate-id-param.middleware.js';
 
 @injectable()
 export class UserController extends Controller {
@@ -46,7 +47,7 @@ export class UserController extends Controller {
             middlewares: [
                 new ValidateDtoMiddleware(LoginUserDTO)
             ]
-        })
+        });
 
         this.addRoute({
             path: '/me',
@@ -55,7 +56,7 @@ export class UserController extends Controller {
             middlewares: [
                 new AuthenticationMiddleware(this.config.get('SECRET_ACCESS_KEY'))
             ]
-        })
+        });
 
         this.addRoute({
             path: '/:id/role',
@@ -64,16 +65,18 @@ export class UserController extends Controller {
             middlewares: [
                 new AuthenticationMiddleware(this.config.get('SECRET_ACCESS_KEY')),
                 new AdminMiddleware(),
+                new ValidateIdParamMiddleware()
             ]
-        })
+        });
 
         this.addRoute({
             path: '/activate/:link',
             method: HttpMethods.Get,
             handler: this.activateUserEmail,
             middlewares: [],
-        })
-
+        });
+        
+        this.logger.log(`Routes registration for ${UserController.name} completed`);
         this.logger.log(`${UserController.name} has been initialized`);
     }
 
