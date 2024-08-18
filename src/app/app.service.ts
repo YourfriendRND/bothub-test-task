@@ -5,10 +5,10 @@ import {
     ConfigIntreface,
     ApplicationConfigSchema,
     ControllerInterface,
-    ExceptionFilterInterface
+    ExceptionFilterInterface,
+    SwaggerInterface
 } from '../types';
 import { ApplicationComponents } from '../core/dictionary/app.js';
-
 
 @injectable()
 export class AppService {
@@ -22,7 +22,13 @@ export class AppService {
         @inject(ApplicationComponents.UserController)
         private readonly userController: ControllerInterface,
         @inject(ApplicationComponents.ExceptionFilter)
-        private readonly exceptionFilter: ExceptionFilterInterface
+        private readonly exceptionFilter: ExceptionFilterInterface,
+        @inject(ApplicationComponents.BookController)
+        private readonly bookController: ControllerInterface,
+        @inject(ApplicationComponents.DocController)
+        private readonly docController: ControllerInterface,
+        @inject(ApplicationComponents.SwaggerService)
+        private readonly swaggerService: SwaggerInterface
     ) {
         this.expressApp = express();
     }
@@ -38,6 +44,8 @@ export class AppService {
     private async _initRoutes(): Promise<void> {
         this.logger.log('Application routes initialization...');
         this.expressApp.use('/users', this.userController.router);
+        this.expressApp.use('/books', this.bookController.router);
+        this.expressApp.use('/docs', this.swaggerService.getSwaggerUi(), this.docController.router);
         this.logger.log('Application routes has been successfully initialized');
     }
 

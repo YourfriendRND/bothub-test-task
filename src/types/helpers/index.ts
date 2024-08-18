@@ -8,3 +8,5 @@ export * from './error-data.type';
 export * from './validation-error';
 export * from './token-payload.type';
 export * from './mail.interface';
+export * from './pagination-query.type';
+export * from './swagger.interface';

@@ -45,13 +45,26 @@ export class UserService {
             .sign(crypto.createSecretKey(jwtSecret, 'utf-8'));
     }
 
-    private createConfirmationLink(): string {
-        const uuid = crypto.randomUUID();
-        return `${this.config.get('APPLICATION_URL')}/users/activate/${uuid}`;
+    private createConfirmationLink(key: string): string {
+        return `${this.config.get('APPLICATION_URL')}/users/activate/${key}`;
     }
 
     public async findUserByEmail(email: string): Promise<UserEntity | null> {
         return await this.userRepository.findByEmail(email);
+    }
+
+    public async findUserById(id: string): Promise<UserEntity> {
+        const user = await this.userRepository.findOne(id);
+
+        if (!user) {
+            throw new HttpError(
+                StatusCodes.NOT_FOUND,
+                `User with id: ${id} not found`,
+                `[${UserService.name}]`
+            )
+        }
+
+        return user;
     }
 
     public async registerUser(createdUser: CreatedUserDTO): Promise<UserEntity> {
@@ -70,13 +83,14 @@ export class UserService {
             email: createdUser.email,
             passwordHash,
             isAdmin: false,
-            isEmailConfirmed: false
+            isEmailConfirmed: false,
+            emailConfirmationKey: crypto.randomUUID(),
         });
 
         const createdUserEntity = await this.userRepository.create(user);
 
         if (createdUserEntity) {
-            const link = this.createConfirmationLink();
+            const link = this.createConfirmationLink(createdUserEntity.emailConfirmationKey);
             await this.mailService.sendActivateEmail(createdUserEntity.email, link);
         }
 
@@ -105,10 +119,8 @@ export class UserService {
             );
         }
 
-        const accessToken = await this.createJWT('HS256', this.config.get('SECRET_ACCESS_KEY'), {
+        const accessToken = await this.createJWT<TokenPayload>('HS256', this.config.get('SECRET_ACCESS_KEY'), {
             id: user.id!,
-            isAdmin: user.isAdmin,
-            email: user.email,
             registrationDate: user.registrationDate!,
         });
 
@@ -117,5 +129,37 @@ export class UserService {
         }
     }
 
+    public async changeRole(adminId: string, userId: string): Promise<UserEntity> {
+        const user = await this.findUserById(userId);
+        user.isAdmin = !user.isAdmin;
+        user.updatedBy = adminId;
 
+        return await this.userRepository.update(userId, user);
+    }
+
+    public async activateUser(key: string) {
+        if (!key) {
+            throw new HttpError(
+                StatusCodes.BAD_REQUEST,
+                `The activation key was not transmitted`,
+                `[${UserService.name}]`
+            );
+        }
+
+        const user = await this.userRepository.findUserByConfirmedKey(key);
+
+        if (!user?.id) {
+            throw new HttpError(
+                StatusCodes.NOT_FOUND,
+                `User not found`,
+                `[${UserService.name}]`
+            )
+        }
+
+        user.isEmailConfirmed = true;
+        const updatedUser = await this.userRepository.update(user.id, user);
+
+        return updatedUser;
+        
+    }
 }

@@ -22,6 +22,27 @@ services:
     networks:
       - bothub.test.application
 
+  api:
+    build: .
+    container_name: bothub.api
+    image: local-image/api
+    volumes:
+      - /bothub-test-task
+      - /bothub-test-task/node_modules
+    ports:
+      - ${PORT}:${PORT}
+    command: ["npm", "start"]
+    restart: always
+    networks:
+      - bothub.test.application
+    logging:
+      driver: "json-file"
+      options:
+        max-size: 5m
+        max-file: 5
+    depends_on:
+      - postgres
+
   pgadmin:
     image: dpage/pgadmin4
     container_name: bothub.pgadmin

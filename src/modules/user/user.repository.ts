@@ -40,12 +40,42 @@ export class UserRepository extends BaseRepository<UserEntity, UserInterface> {
         
     }
 
-    public update(_id: string, _data: UserEntity): Promise<UserEntity> {
-        throw new Error('Not implemented');
+    public async update(id: string, data: UserEntity): Promise<UserEntity> {
+        const user = await this.client.user.update({
+            where: {
+                id
+            },
+            data,
+        });
+
+        return this.createEntityFromDocument(user);
     }
 
-    public findOne(_id: string): Promise<UserEntity> {
-        throw new Error('Not implemented');
+    public async findOne(id: string): Promise<UserEntity | null> {
+        const user = await this.client.user.findUnique({
+            where: {
+                id
+            }
+        });
+
+        if (user) {
+            return this.createEntityFromDocument(user);
+        }
+
+        return null;
+    }
+
+    public async findUserByConfirmedKey(key: string): Promise<UserEntity | null> {
+        const user = await this.client.user.findFirst({
+            where: {
+                emailConfirmationKey: key
+            }
+        });
+        if (user) {
+            return this.createEntityFromDocument(user);
+        }
+
+        return user;
     }
 
 

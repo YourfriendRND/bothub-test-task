@@ -1,0 +1,55 @@
+##### Файл тестовых запросов к контролеру books
+##### Запросы выполняются с помощью расширения REST Client для VS Code ( https://marketplace.visualstudio.com/items?itemName=humao.rest-client )
+
+#### Создание книги
+
+POST http://localhost:5001/books HTTP/1.1
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6IjhkODNjNmU1LTZmNmEtNDk4NS1iZjgzLTA4NjYxYWU3N2E0OCIsInJlZ2lzdHJhdGlvbkRhdGUiOiIyMDI0LTA4LTE3VDE5OjU4OjMwLjYyNFoiLCJpYXQiOjE3MjM5MjUzNzAsImV4cCI6MTcyMzk2MTM3MH0.RglMpeWq5iEZGZOW6v4KTXw_DM8LY5mMIVWBcQEPaT8
+
+{
+    "title": "Преступление и наказание",
+    "author": "Ф.М. Достоевский",
+    "genres": "Роман",
+    "publicationDate": "1866"
+}
+
+##### Создание еще одной книги
+
+POST http://localhost:5001/books HTTP/1.1
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6IjhkODNjNmU1LTZmNmEtNDk4NS1iZjgzLTA4NjYxYWU3N2E0OCIsInJlZ2lzdHJhdGlvbkRhdGUiOiIyMDI0LTA4LTE3VDE5OjU4OjMwLjYyNFoiLCJpYXQiOjE3MjM5MjUzNzAsImV4cCI6MTcyMzk2MTM3MH0.RglMpeWq5iEZGZOW6v4KTXw_DM8LY5mMIVWBcQEPaT8
+
+{
+    "title": "Мастер и Маргарита",
+    "author": "М.А. Булгаков",
+    "genres": "Роман",
+    "publicationDate": "1967"
+}
+
+
+#### Получение списка книг
+
+GET http://localhost:5001/books HTTP/1.1
+content-type: application/json
+
+##### Получение конкретной книги
+GET http://localhost:5001/books/a95b150a-df51-4e2b-84e6-04f593181d7e HTTP/1.1
+content-type: application/json
+
+##### Обновление книги
+PUT http://localhost:5001/books/a95b150a-df51-4e2b-84e6-04f593181d7e
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6IjhkODNjNmU1LTZmNmEtNDk4NS1iZjgzLTA4NjYxYWU3N2E0OCIsInJlZ2lzdHJhdGlvbkRhdGUiOiIyMDI0LTA4LTE3VDE5OjU4OjMwLjYyNFoiLCJpYXQiOjE3MjM5MjUzNzAsImV4cCI6MTcyMzk2MTM3MH0.RglMpeWq5iEZGZOW6v4KTXw_DM8LY5mMIVWBcQEPaT8
+
+{
+    "title": "Ревизор",
+    "author": "Н.В. Гоголь",
+    "genres": "Пьеса",
+    "publicationDate": "1835"
+}
+
+##### Удаление книги
+DELETE http://localhost:5001/books/b4c343bb-3864-48e3-9b6b-6ceede399806
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6IjhkODNjNmU1LTZmNmEtNDk4NS1iZjgzLTA4NjYxYWU3N2E0OCIsInJlZ2lzdHJhdGlvbkRhdGUiOiIyMDI0LTA4LTE3VDE5OjU4OjMwLjYyNFoiLCJpYXQiOjE3MjM5MjUzNzAsImV4cCI6MTcyMzk2MTM3MH0.RglMpeWq5iEZGZOW6v4KTXw_DM8LY5mMIVWBcQEPaT8

@@ -7,4 +7,10 @@ export const ApplicationComponents = {
     UserService: Symbol.for('UserService'),
     UserRepository: Symbol.for('UserRepository'),
     Mail: Symbol.for('MailInterface'),
+    BookController: Symbol.for('BookController'),
+    BookService: Symbol.for('BookService'),
+    BookRepository: Symbol.for('BookRepository'),
+    DocController: Symbol.for('DocController'),
+    DocService: Symbol.for('DocService'),
+    SwaggerService: Symbol.for('SwaggerService'),
 }

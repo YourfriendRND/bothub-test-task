@@ -1,6 +1,6 @@
 import joi from 'joi'; 
 import { config } from 'dotenv';
-import { writeFile, unlink } from 'fs/promises';
+import { writeFile, unlink, access  } from 'fs/promises';
 import { PrismaConfigSchema } from './../types'
 
 const validationSchema = joi.object({
@@ -43,7 +43,11 @@ function createEnvConfig(config: Record<string, unknown>): string {
 
 async function updateAppEnvFile(configContent: string): Promise<void> {
     try {
-        await unlink('./src/model/.env');
+        const env = await access('./src/model/.env').then(() => true).catch(() => false);
+        
+        if (env) {
+            await unlink('./src/model/.env');
+        }
     } catch {
         console.error('Prisma .env file does not exist');
     }
