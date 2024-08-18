@@ -33,7 +33,7 @@ export class BookService {
         const bookEntity = new BookEntity({
             title: book.title,
             author: book.author,
-            publicationDate: book.publicationDate,
+            publicationDate: new Date(book.publicationDate),
             genres: book.genres,
             addedBy: adminId,
             updatedBy: adminId
@@ -74,12 +74,13 @@ export class BookService {
 
        targetBook.title = updatedBook.title;
        targetBook.author = updatedBook.author;
-       targetBook.publicationDate = updatedBook.publicationDate;
+       targetBook.publicationDate = new Date(updatedBook.publicationDate);
        targetBook.genres = updatedBook.genres;
        targetBook.updatedBy = adminId;
+       targetBook.updatedAt = new Date();
        
        const book = await this.bookRepository.update(id, targetBook);
-       
+
        return book;
     }
 

@@ -14,7 +14,7 @@ export class BookRDO {
     public publicationDate!: string;
 
     @Expose()
-    public genre!: string;
+    public genres!: string;
 
     @Expose()
     public addedBy!: string;

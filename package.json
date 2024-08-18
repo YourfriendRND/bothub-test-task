@@ -9,7 +9,7 @@
     "compile": "tsc -p tsconfig.json",
     "clean": "rimraf dist",
     "ts": "npx ts-node",
-    "prisma:init": "npm run build && npm run prisma:env && npm run prisma:migrate && npm run prisma:generate",
+    "prisma:init": "npm run build && npm run prisma:env && npm run prisma:generate && npm run prisma:migrate",
     "prisma:env": "node ./dist/model/prisma.config.js",
     "prisma:migrate": "npx prisma migrate dev --schema ./src/model/prisma/schema.prisma",
     "prisma:generate": "npx prisma generate --schema ./src/model/prisma/schema.prisma",

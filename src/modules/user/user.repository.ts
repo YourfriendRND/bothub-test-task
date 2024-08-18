@@ -65,5 +65,18 @@ export class UserRepository extends BaseRepository<UserEntity, UserInterface> {
         return null;
     }
 
+    public async findUserByConfirmedKey(key: string): Promise<UserEntity | null> {
+        const user = await this.client.user.findFirst({
+            where: {
+                emailConfirmationKey: key
+            }
+        });
+        if (user) {
+            return this.createEntityFromDocument(user);
+        }
+
+        return user;
+    }
+
 
 }

@@ -25,7 +25,7 @@ export class BookRepository extends BaseRepository<BookEntity, BookInterface> {
             }
         });
 
-        return books.map((book) => this.createEntityFromDocument(book));
+        return books.map((book: BookInterface) => this.createEntityFromDocument(book));
     }
 
     public async create(data: BookEntity): Promise<BookEntity> {
@@ -34,7 +34,7 @@ export class BookRepository extends BaseRepository<BookEntity, BookInterface> {
                 title: data.title,
                 author: data.author,
                 genres: data.genres,
-                publicationDate: new Date(data.publicationDate),
+                publicationDate: data.publicationDate,
                 updatedBy: data.addedBy,
                 createdBy: {
                     connect: {

@@ -45,15 +45,14 @@ async function updateAppEnvFile(configContent: string): Promise<void> {
     try {
         const env = await access('./src/model/.env').then(() => true).catch(() => false);
         
-        if (!env) {
+        if (env) {
             await unlink('./src/model/.env');
         }
-        await unlink('./src/model/.env');
     } catch {
         console.error('Prisma .env file does not exist');
     }
     finally {
-        await writeFile('./src/model/.env', configContent);
+        await writeFile('./src/model/prisma/.env', configContent);
     }
 }
 

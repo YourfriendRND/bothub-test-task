@@ -7,6 +7,7 @@ export class UserEntity implements BaseEntity, UserInterface {
     public email!: string;
     public isAdmin!: boolean;
     public isEmailConfirmed!: boolean;
+    public emailConfirmationKey!: string;
     public registrationDate?: Date;
     public updatedAt?: Date;
     public updatedBy?: string | null;
@@ -23,6 +24,7 @@ export class UserEntity implements BaseEntity, UserInterface {
         this.isAdmin = user.isAdmin ?? false;
         this.isEmailConfirmed = user.isEmailConfirmed ?? false;
         this.registrationDate = user.registrationDate;
+        this.emailConfirmationKey = user.emailConfirmationKey;
         this.updatedAt = user.updatedAt;
         this.updatedBy = user.updatedBy;
     }
@@ -35,6 +37,7 @@ export class UserEntity implements BaseEntity, UserInterface {
             email: this.email,
             isAdmin: this.isAdmin,
             isEmailConfirmed: this.isEmailConfirmed,
+            emailConfirmationKey: this.emailConfirmationKey,
             registrationDate: this.registrationDate,
             updatedAt: this.updatedAt,
             updatedBy: this.updatedBy

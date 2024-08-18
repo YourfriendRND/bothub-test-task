@@ -3,29 +3,46 @@
 
 ##### Регистрация пользователя
 
-POST http://localhost:5000/users/register HTTP/1.1
+POST http://localhost:5001/users/register HTTP/1.1
 content-type: application/json
 
 {
-    "email": "anton.ivanov.hh@gmail.com",
+    "email": "admin@example.com",
     "password": "hello321qwe",
-    "username": "Anton"
+    "username": "admin"
+}
+
+##### Регистрация еще одного пользователя
+
+POST http://localhost:5001/users/register HTTP/1.1
+content-type: application/json
+
+{
+    "email": "test@inbox.ru",
+    "password": "helloworld",
+    "username": "user"
 }
 
 
 ##### Аутентификация пользователя
 
-POST http://localhost:5000/users/login HTTP/1.1
+POST http://localhost:5001/users/login HTTP/1.1
 content-type: application/json
 
 {
-    "email": "anton.ivanov.hh@gmail.com",
+    "email": "admin@example.com",
     "password": "hello321qwe"
 }
 
 ##### Запрос данных пользователя
 
-GET http://localhost:7000/users/me HTTP/1.1
+GET http://localhost:5001/users/me HTTP/1.1
 content-type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6Ijk2ZTI2NmY4LTIxYTktNDc2ZS05MzdkLTIzNWY1YTFjYjQ0YSIsImlzQWRtaW4iOmZhbHNlLCJlbWFpbCI6ImFudG9uLml2YW5vdi5oaEBnbWFpbC5jb20iLCJyZWdpc3RyYXRpb25EYXRlIjoiMjAyNC0wOC0xNFQxNzo1NDowNy4yMzlaIiwiaWF0IjoxNzIzNjU5Njg5LCJleHAiOjE3MjM2OTU2ODl9.EdTVlnKxdIT35tws3Jno0gkMMPk6C224wDLEwOe87ms
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6IjhkODNjNmU1LTZmNmEtNDk4NS1iZjgzLTA4NjYxYWU3N2E0OCIsInJlZ2lzdHJhdGlvbkRhdGUiOiIyMDI0LTA4LTE3VDE5OjU4OjMwLjYyNFoiLCJpYXQiOjE3MjM5MjUzNzAsImV4cCI6MTcyMzk2MTM3MH0.RglMpeWq5iEZGZOW6v4KTXw_DM8LY5mMIVWBcQEPaT8
+
+#### Запрос на изменение роли пользователя
+
+PUT http://localhost:5001/users/0d2e804d-de3a-4dd6-8009-5642eee93b35/role HTTP/1.1
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6IjhkODNjNmU1LTZmNmEtNDk4NS1iZjgzLTA4NjYxYWU3N2E0OCIsInJlZ2lzdHJhdGlvbkRhdGUiOiIyMDI0LTA4LTE3VDE5OjU4OjMwLjYyNFoiLCJpYXQiOjE3MjM5MjUzNzAsImV4cCI6MTcyMzk2MTM3MH0.RglMpeWq5iEZGZOW6v4KTXw_DM8LY5mMIVWBcQEPaT8
 

@@ -120,7 +120,7 @@ export class BookController extends Controller {
     ): Promise<void> {
         const book = await this.bookService.updateBook(params.id, user.id, body);
 
-        return this.ok(res, fillDTO(BookDTO, book.toObject()))
+        this.ok(res, fillDTO(BookRDO, book.toObject()))
     }
 
     public async deleteBook(

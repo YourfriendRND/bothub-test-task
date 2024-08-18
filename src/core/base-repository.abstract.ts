@@ -13,7 +13,7 @@ export abstract class BaseRepository<
         private readonly createEntity: (document: DocumentType) => T,    
     ) {
         this._client = new PrismaClient({
-            log: ['query', 'warn', 'error'],
+            log: ['warn', 'error'],
         });
 
         this._client.$connect();

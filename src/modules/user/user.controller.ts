@@ -70,7 +70,7 @@ export class UserController extends Controller {
         });
 
         this.addRoute({
-            path: '/activate/:link',
+            path: '/activate/:key',
             method: HttpMethods.Get,
             handler: this.activateUserEmail,
             middlewares: [],
@@ -119,7 +119,18 @@ export class UserController extends Controller {
         return this.ok(res, fillDTO(UserRDO, updatedUser.toObject()))
     }
 
-    public async activateUserEmail(): Promise<void> {
-        throw new Error('Not implemented yet');
+    public async activateUserEmail(
+        { params }: Request<core.ParamsDictionary | { key: string }>,
+        res: Response
+    ): Promise<void> {
+        const key = params.key;
+
+        const updatedUser = await this.userService.activateUser(key);
+        
+        if (updatedUser) {
+            res.redirect(`${this.config.get('APPLICATION_URL')}/docs`);
+        }
+
+        return;
     }
 }

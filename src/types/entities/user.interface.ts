@@ -5,6 +5,7 @@ export interface UserInterface {
     email: string;
     isAdmin: boolean;
     isEmailConfirmed: boolean;
+    emailConfirmationKey: string;
     registrationDate?: Date;
     updatedAt?: Date;
     updatedBy?: string | null;
